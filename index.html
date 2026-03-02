@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>When Burglars Strike: A Chicago Crime Clock</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div id="tooltip"></div>
+
+<header class="masthead">
+  <div class="header-row">
+    <img src="images/cityFlag.png" alt="Chicago Flag" style="height: 80px; flex-shrink: 0; border-radius: 3px;">   
+     <h1>Chicago Burglary Clock</em></h1>
+    <img src="images/badge2.webp" alt="Chicago Flag" style="height: 80px; flex-shrink: 0; border-radius: 3px;">   
+  </div>
+  <p class="deck">
+    When do burglaries actually happen in Chicago? Not when most people think...
+  </p>
+</header>
+
+<div class="container">
+
+  <table class="stat-strip" id="stat-strip">
+    <tbody>
+      <tr class="stat-item">
+        <td class="stat-item-label">Total Burglaries</td>
+        <td class="stat-item-value" id="s-total">—</td>
+        <td class="stat-item-note" id="s-total-note"></td>
+      </tr>
+      <tr class="stat-item">
+        <td class="stat-item-label">Peak Hour</td>
+        <td class="stat-item-value" id="s-peak-hour">—</td>
+        <td class="stat-item-note danger" id="s-peak-hour-note"></td>
+      </tr>
+      <tr class="stat-item">
+        <td class="stat-item-label">Safest Hour</td>
+        <td class="stat-item-value" id="s-safe-hour">—</td>
+        <td class="stat-item-note safe" id="s-safe-hour-note"></td>
+      </tr>
+      <tr class="stat-item">
+        <td class="stat-item-label">Worst Day</td>
+        <td class="stat-item-value" id="s-worst-day">—</td>
+        <td class="stat-item-note danger" id="s-worst-day-note"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="filter-row" id="filter-row">
+    <label for="burglary-type-select">Burglary Type:</label>
+    <select id="burglary-type-select">
+      <option value="ALL">All Burglary</option>
+      <option value="FORCIBLE ENTRY">Forcible Entry</option>
+      <option value="UNLAWFUL ENTRY">Unlawful Entry</option>
+      <option value="HOME INVASION">Home Invasion</option>
+      <option value="ATTEMPT FORCIBLE ENTRY">Attempt Forcible</option>
+      <option value="BURGLARY FROM MOTOR VEHICLE">From Vehicle</option>
+    </select>
+  </div>
+
+  <div class="full-width">
+    <div class="panel" id="heatmap-panel">
+      <div class="panel-headline"> Prime Crime Time Grid
+ </div>
+      <div class="panel-desc"> <em>Darker blue = more burglaries.</em> Hover over grid squares to see number of burglaries.</div>
+      <div id="heatmap-chart"></div>
+      <div class="callout" id="heatmap-callout">
+        <strong>Verdict:</strong> Most break-ins in Chicago don't happen in the middle of the night. They happen when you're at work.
+  </div>
+
+  <div class="full-width">
+    <div class="panel" id="hourly-panel">
+      <div class="panel-headline">The 24 Hour Time Curve</div>
+      <div class="panel-desc">Click and drag to select a <strong> time window </strong> and view the filtered heatmap.</div>
+      <div id="hourly-chart"></div>
+    </div>
+  </div>
+
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
