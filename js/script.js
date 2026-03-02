@@ -39,7 +39,7 @@ d3.csv('data/data.csv').then(function(raw) {
   subtypes = Object.keys(subtypeSet).sort();
   // console.log("subtypes found:", subtypes);
 
-  minYear = 2048;
+  minYear = 9999;
   maxYear = 0;
   for (let i = 0; i < parsed.length; i++) {
     if (parsed[i].year < minYear) minYear = parsed[i].year;
