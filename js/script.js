@@ -1,11 +1,10 @@
-let dayHourData, hourlyData, dowData, yearlyData, subtypes, minYear, maxYear;
+let dayHourData, hourlyData, dowData, yearlyData, minYear, maxYear;
 
 const days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
 
 d3.csv('data/data.csv').then(function(raw) {
   console.log("csv loaded, rows:", raw.length);
 
-  // parse each row to pull out hour, day of week, year, etc
   let parsed = [];
   for (let i = 0; i < raw.length; i++) {
     const row = raw[i];
@@ -30,14 +29,6 @@ d3.csv('data/data.csv').then(function(raw) {
   }
 
   // console.log("parsed rows:", parsed.length);
-
-  // figure out what subtypes exist in the data
-  let subtypeSet = {};
-  for (let i = 0; i < parsed.length; i++) {
-    subtypeSet[parsed[i].desc] = true;
-  }
-  subtypes = Object.keys(subtypeSet).sort();
-  // console.log("subtypes found:", subtypes);
 
   minYear = 9999;
   maxYear = 0;

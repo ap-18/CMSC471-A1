@@ -1,86 +1,205 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chicago Burglary Clock</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
-<link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chicago Burglary Clock</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+  <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
 
-<div id="tooltip"></div>
+  <div id="tooltip"></div>
 
-<header class="masthead">
-  <div class="header-row">
-    <img src="images/cityFlag.png" alt="Chicago Flag" style="height: 80px; flex-shrink: 0; border-radius: 3px;">   
-     <h1>Chicago Burglary Clock</em></h1>
-    <img src="images/badge2.webp" alt="Chicago Flag" style="height: 80px; flex-shrink: 0; border-radius: 3px;">   
-  </div>
-  <p class="deck">
-    When do burglaries actually happen in Chicago? Not when most people think...
-  </p>
-</header>
-
-<div class="container">
-
-  <table class="stat-strip" id="stat-strip">
-    <tbody>
-      <tr class="stat-item">
-        <td class="stat-item-label">Total Burglaries</td>
-        <td class="stat-item-value" id="s-total">—</td>
-        <td class="stat-item-note" id="s-total-note"></td>
-      </tr>
-      <tr class="stat-item">
-        <td class="stat-item-label">Peak Hour</td>
-        <td class="stat-item-value" id="s-peak-hour">—</td>
-        <td class="stat-item-note danger" id="s-peak-hour-note"></td>
-      </tr>
-      <tr class="stat-item">
-        <td class="stat-item-label">Safest Hour</td>
-        <td class="stat-item-value" id="s-safe-hour">—</td>
-        <td class="stat-item-note safe" id="s-safe-hour-note"></td>
-      </tr>
-      <tr class="stat-item">
-        <td class="stat-item-label">Worst Day</td>
-        <td class="stat-item-value" id="s-worst-day">—</td>
-        <td class="stat-item-note danger" id="s-worst-day-note"></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="filter-row" id="filter-row">
-    <label for="burglary-type-select">Burglary Type:</label>
-    <select id="burglary-type-select">
-      <option value="ALL">All Burglary</option>
-      <option value="FORCIBLE ENTRY">Forcible Entry</option>
-      <option value="UNLAWFUL ENTRY">Unlawful Entry</option>
-      <option value="HOME INVASION">Home Invasion</option>
-      <option value="ATTEMPT FORCIBLE ENTRY">Attempt Forcible</option>
-      <option value="BURGLARY FROM MOTOR VEHICLE">From Vehicle</option>
-    </select>
-  </div>
-
-  <div class="full-width">
-    <div class="panel" id="heatmap-panel">
-      <div class="panel-headline"> Prime Crime Time Grid
- </div>
-      <div class="panel-desc"> <em>Darker blue = more burglaries.</em> Hover over grid squares to see number of burglaries.</div>
-      <div id="heatmap-chart"></div>
-      <div class="callout" id="heatmap-callout">
-        <strong>Verdict:</strong> Most break-ins in Chicago don't happen in the middle of the night. They happen when you're at work.
-  </div>
-
-  <div class="full-width">
-    <div class="panel" id="hourly-panel">
-      <div class="panel-headline">The 24 Hour Time Curve</div>
-      <div class="panel-desc">Click and drag to select a <strong> time window </strong> and view the filtered heatmap.</div>
-      <div id="hourly-chart"></div>
+  <header class="masthead">
+    <div class="header-row">
+      <img src="images/cityFlag.png" alt="Chicago Flag" style="height: 80px; flex-shrink: 0; border-radius: 3px;">
+      <h1>Chicago Burglary Clock</h1>
+      <img src="images/badge2.webp" alt="Chicago Police Badge" style="height: 80px; flex-shrink: 0; border-radius: 3px;">
     </div>
+    <p class="deck">
+      When do burglaries actually happen in Chicago? Not when most people think...
+    </p>
+  </header>
+
+  <div class="container">
+
+    <table class="stat-bar">
+      <tbody>
+        <tr class="stat-item">
+          <td class="stat-item-label">Total Burglaries</td>
+          <td class="stat-item-value" id="s-total">-</td>
+          <td class="stat-item-note" id="s-total-note"></td>
+        </tr>
+        <tr class="stat-item">
+          <td class="stat-item-label">Peak Hour</td>
+          <td class="stat-item-value" id="s-peak-hour">-</td>
+          <td class="stat-item-note danger" id="s-peak-hour-note"></td>
+        </tr>
+        <tr class="stat-item">
+          <td class="stat-item-label">Safest Hour</td>
+          <td class="stat-item-value" id="s-safe-hour">-</td>
+          <td class="stat-item-note safe" id="s-safe-hour-note"></td>
+        </tr>
+        <tr class="stat-item">
+          <td class="stat-item-label">Worst Day</td>
+          <td class="stat-item-value" id="s-worst-day">-</td>
+          <td class="stat-item-note danger" id="s-worst-day-note"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="filter-row">
+      <label for="burglary-type-select">Burglary Type:</label>
+      <select id="burglary-type-select">
+        <option value="ALL">All Burglary</option>
+        <option value="FORCIBLE ENTRY">Forcible Entry</option>
+        <option value="UNLAWFUL ENTRY">Unlawful Entry</option>
+        <option value="HOME INVASION">Home Invasion</option>
+        <option value="ATTEMPT FORCIBLE ENTRY">Attempt Forcible</option>
+        <option value="BURGLARY FROM MOTOR VEHICLE">From Vehicle</option>
+      </select>
+    </div>
+
+    <div class="full-width">
+      <div class="panel">
+        <div class="panel-headline">Prime Crime Time Grid</div>
+        <div class="panel-desc"><em>Darker blue = more burglaries.</em> Hover over grid squares to see number of burglaries.</div>
+        <div id="heatmap-chart"></div>
+        <div class="callout">
+          <strong>Verdict:</strong> Most break-ins in Chicago don't happen in the middle of the night. They happen when you're at work.
+        </div>
+      </div>
+    </div>
+
+    <div class="full-width">
+      <div class="panel">
+        <div class="panel-headline">The 24 Hour Time Curve</div>
+        <div class="panel-desc">Click and drag to select a <strong>time window</strong> and view the filtered heatmap.</div>
+        <div id="hourly-chart"></div>
+      </div>
+    </div>
+
+    <div class="full-width">
+      <div class="panel" id="writeup-panel">
+
+        <div class="panel-headline">Write Up</div>
+        <p>
+          For our webpage we choose to focus on the Chicago police department crime dataset, specifically
+          the burglaries from 2001-2026. The chosen variables from this subset were time stamp, burglary
+          type (Forcible Entry, Unlawful Entry, Home Invasion, Attempt Forcible Entry, and Burglary From
+          Motor Vehicle), and whether an arrest was made. From the timestamp I extracted the hour, day, and
+          year to create the heatmap and 24 hour line chart. I chose burglary specifically because it has
+          clear patterns that make for an interesting time of day and day of week analysis unlike murder
+          and theft which are uniformly distributed.
+        </p>
+
+        <div class="panel-headline">Implemented Interactions</div>
+        <ol>
+          <li><strong>Brushing and Linking</strong> - drag on the 24 hour time curve to select a time range
+            and the heatmap updates to reflect that window.</li>
+          <li><strong>Filtering</strong> - click a burglary subtype button to show the filtered and updated
+            heatmap, stat bar, and line chart.</li>
+          <li><strong>Linked Views</strong> - the heatmap, curve, and stat bar are all connected so any
+            interaction on one updates the others.</li>
+          <li><strong>Tooltips</strong> - hover over any heatmap cell to see the exact count of burglaries.</li>
+          <li><strong>Annotation</strong> - under the heatmap, stating the overall trend of all burglaries
+            and answering the question posed in the introduction.</li>
+        </ol>
+
+        <div class="panel-headline">Design Rationale</div>
+        <p>
+          One visualization we implemented is a day x hour heatmap paired with a
+          24 hour area/line chart that are linked together through brushing. I chose a
+          heatmap for the main view because it can show all 168 day x hour combinations (7 days x 24
+          hours) simultaneously, making it easier to spot patterns very easily. The alternative I
+          considered was a series of small multiple line charts (one per day), but that made it harder to
+          compare across days and took up much more vertical space. For the heatmap, I used a blue color
+          scale (light gray to dark navy) that maps cells to burglary counts. After some consideration,
+          I used a single hue ramp instead of a diverging or multi hue palette because the data only goes
+          in one direction (zero to high), and the dark on light contrast makes the hotspots immediately
+          visible.
+        </p>
+        <p>
+          The 24 hour time curve below it serves two purposes, first it gives a more precise reading of
+          hourly totals through local and absolute minima and maxima than color alone can, and it provides
+          the brush interaction. I used d3.brushX() so the user can click and drag to select a
+          time window, which then dims the out of range cells in the heatmap. I considered using click to
+          filter on individual heatmap cells instead, but brushing a continuous range felt more natural for
+          a time axis and lets you explore windows like "what happens between 2 AM and 6 AM" in a single
+          gesture.
+        </p>
+        <p>
+          The stat bar at the top provides five summary numbers such as total burglaries, peak hour,
+          safest hour, worst day, and arrest rate that update automatically as you filter the type of
+          burglary. I included this because the heatmap shows patterns well but makes it hard to read
+          exact values for the reader to get the "bigger picture". Also, the stats give exact answers to
+          the questions raised by the heatmap.
+        </p>
+
+        <div class="panel-headline">Development Process</div>
+        <p>
+          This was basically a solo project. I spent roughly 12-15 hours on it in total
+          across about a week. Firstly, the data exploration part and preparation involved writing a python
+          script to further filter the csv data of all the burglaries from 22 columns to 4 columns that we
+          needed for our graphs. I remember when I first deployed the project to the github.io website the
+          data wouldn't load, then I realized that the data.csv was around 118 mb. Then, I asked a question
+          in Piazza to which the professor had an idea to filter it down further, so I ended up writing a
+          python script to reduce the data.csv to 4 columns. This reduced the data csv file to about 21mb,
+          which github.io was able to successfully load from the repo.
+        </p>
+        <p>
+          Next, I implemented the heatmap which was the most time consuming because I had to fine tune the
+          cell layout, color scale, and tooltip positioning to the perfect setting. Also, I ran into a lot
+          of problems with the brushing and linking feature. Making it so d3.brushX() was able
+          to filter the heatmap took the most debugging time. The main challenge was converting pixel
+          coordinates back to hour values using scale.invert(), and making sure the heatmap
+          redraws correctly when the brush is cleared. I also had to use IIFE closures inside the cell
+          drawing loops to avoid variable scoping issues in the event handlers. In addition, understanding
+          how D3's brush events work and getting the heatmap to update its opacity in sync with the brush
+          selection required reading through several tutorials and Observable notebooks before I had it
+          working reliably. The rest of the css styling and html document layout didn't take much time
+          because I have prior web development experience.
+        </p>
+
+        <div class="panel-headline">Extra Credit</div>
+        <p>
+          Narrative and theme of webpage is my main argument for receiving some extra credit points. The
+          entire theme of the webpage is Chicago themed, starting with the image of the Chicago flag and
+          the image of the Chicago police badge. The title of "Chicago Burglary Clock" is clever because
+          the heatmap and line chart show exactly what time of the day burglaries happen. The naming schemes
+          for the heat map, "Prime Crime Time Grid" is catchy because it rhymes and warns the public of
+          when the "prime time" is for burglars to commit a "crime" based on two decades of historical
+          burglary data. Another thing is that this webpage was intentionally crafted to serve as a public
+          announcement to residents of Chicago to warn them to stay vigilant during these hours. The website
+          utilized a navy blue color theme, identical to the colors of the Chicago police department.
+          Furthermore, the "Verdict: ..." annotation under the heatmap used judicial jargon to tie it into
+          the overall police theme.
+        </p>
+
+        <div class="panel-headline">References</div>
+        <ul>
+          <li>Chicago Police Department. "Crimes - 2001 to Present." <em>City of Chicago Data Portal</em>, Feb. 2026. <a href="https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-Present/ijzp-q8t2" target="_blank">https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-Present/ijzp-q8t2</a></li>
+          <li>Bostock, M. "d3-brush." <em>D3 by Observable</em>. <a href="https://d3js.org/d3-brush" target="_blank">https://d3js.org/d3-brush</a></li>
+          <li>Bostock, M. "d3-shape: Areas." <em>D3 by Observable</em>. <a href="https://d3js.org/d3-shape/area" target="_blank">https://d3js.org/d3-shape/area</a></li>
+          <li>Bostock, M. "d3-scale-chromatic." <em>D3 by Observable</em>. <a href="https://d3js.org/d3-scale-chromatic" target="_blank">https://d3js.org/d3-scale-chromatic</a></li>
+          <li>Holtz, Y. "Brushing in D3.js." <em>The D3 Graph Gallery</em>. <a href="https://d3-graph-gallery.com/graph/interactivity_brush.html" target="_blank">https://d3-graph-gallery.com/graph/interactivity_brush.html</a></li>
+          <li>Holtz, Y. "Heatmap." <em>The D3 Graph Gallery</em>. <a href="https://d3-graph-gallery.com/graph/heatmap_basic.html" target="_blank">https://d3-graph-gallery.com/graph/heatmap_basic.html</a></li>
+          <li>Guerra, J. "d3BrushAndLinkingExample." <em>GitHub</em>. <a href="https://github.com/john-guerra/d3BrushAndLinkingExample" target="_blank">https://github.com/john-guerra/d3BrushAndLinkingExample</a></li>
+          <li>Koytek, P. "D3 Part 3 - Brushing and Linking." <em>Observable</em>, Dec. 2020. <a href="https://observablehq.com/@philippkoytek/d3-part-3-brushing-and-linking" target="_blank">https://observablehq.com/@philippkoytek/d3-part-3-brushing-and-linking</a></li>
+          <li>Sankaran, K. "Brush Interaction in D3." <em>Statistical Data Visualization (UW-Madison)</em>. <a href="https://krisrs1128.github.io/stat679_notes/2022/06/01/week6-4.html" target="_blank">https://krisrs1128.github.io/stat679_notes/2022/06/01/week6-4.html</a></li>
+          <li>Smith, P. "Picking, Dragging and Brushing with D3." <em>D3 in Depth</em>. <a href="https://www.d3indepth.com/interaction/" target="_blank">https://www.d3indepth.com/interaction/</a></li>
+          <li>Yang, F. Labs and lecture slides. <em>CMSC 471</em>. <a href="https://fumeng-yang.github.io/CMSC471/" target="_blank">https://fumeng-yang.github.io/CMSC471/</a></li>
+        </ul>
+
+      </div>
+    </div>
+
   </div>
 
-</div>
-
-<script src="js/script.js"></script>
+  <script src="js/script.js"></script>
 </body>
+
 </html>
